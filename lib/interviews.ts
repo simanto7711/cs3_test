@@ -9,6 +9,7 @@ export type InterviewAnswer = {
 
 export type InterviewSession = {
   answers: InterviewAnswer[];
+  audioUrl?: string;
   date?: string;
   id: string;
   participant?: string;
@@ -70,7 +71,7 @@ export async function getInterviewSessions(): Promise<InterviewSession[]> {
     }
 
     const payload: unknown = await response.json();
-    return normalizeSessions(payload, interviewerEmail);
+    return normalizeSessions(payload, interviewerEmail, baseUrl);
   }
 
   throw new Error("The interview sessions endpoint was not found.");
@@ -79,6 +80,7 @@ export async function getInterviewSessions(): Promise<InterviewSession[]> {
 function normalizeSessions(
   payload: unknown,
   interviewerEmail: string,
+  baseUrl: string,
 ): InterviewSession[] {
   const items = extractItems(payload);
   const datasetIncludesInterviewer = items.some((item) =>
@@ -107,6 +109,21 @@ function normalizeSessions(
 
     const existing = sessions.get(sessionId) ?? {
       answers: [],
+      audioUrl: resolveAudioUrl(
+        readText(item, [
+          "audio_url",
+          "audioUrl",
+          "audio_file_url",
+          "audioFileUrl",
+          "audio_path",
+          "audioPath",
+          "recording_url",
+          "recordingUrl",
+          "recording_path",
+          "recordingPath",
+        ]),
+        baseUrl,
+      ),
       date: readText(item, [
         "completed_at",
         "completedAt",
@@ -149,6 +166,18 @@ function normalizeSessions(
     const bTime = b.date ? Date.parse(b.date) : 0;
     return bTime - aTime;
   });
+}
+
+function resolveAudioUrl(
+  value: string | undefined,
+  baseUrl: string,
+): string | undefined {
+  if (!value) return undefined;
+  try {
+    return new URL(value, `${baseUrl}/`).toString();
+  } catch {
+    return undefined;
+  }
 }
 
 function normalizeAnswer(

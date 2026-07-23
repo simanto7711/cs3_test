@@ -92,6 +92,7 @@ export default async function DashboardPage() {
           <div>
             <h2>Interview server unavailable</h2>
             <p>{errorMessage} Please try this page again shortly.</p>
+            <a className="retryLink" href="/dashboard">Retry connection</a>
           </div>
         </section>
       ) : sessions.length === 0 ? (
@@ -117,6 +118,22 @@ export default async function DashboardPage() {
                   <time>{formatDate(session.date)}</time>
                 </div>
               </header>
+
+              {session.audioUrl && (
+                <section className="recordingPanel" aria-label="Session recording">
+                  <div>
+                    <span>Audio recording</span>
+                    <p>Listen to the recording from this interview session.</p>
+                  </div>
+                  <audio
+                    controls
+                    preload="metadata"
+                    src={`/api/interview-audio?src=${encodeURIComponent(session.audioUrl)}`}
+                  >
+                    Your browser does not support audio playback.
+                  </audio>
+                </section>
+              )}
 
               <div className="answerList">
                 {session.answers.length === 0 ? (

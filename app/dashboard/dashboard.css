@@ -19,6 +19,8 @@
 .stateIcon { align-items: center; background: rgba(98,230,210,.1); border: 1px solid rgba(98,230,210,.3); border-radius: 50%; color: var(--accent); display: flex; flex: 0 0 auto; font-weight: 850; height: 45px; justify-content: center; width: 45px; }
 .dashboardState h2 { font-size: 1.15rem; margin: 0 0 8px; }
 .dashboardState p { color: var(--muted); line-height: 1.55; margin: 0; }
+.retryLink { color: var(--accent); display: inline-block; font-size: .76rem; font-weight: 750; margin-top: 13px; }
+.retryLink:hover { text-decoration: underline; }
 .sessionList { display: flex; flex-direction: column; gap: 22px; margin: 0 auto; max-width: 1180px; padding: 0 20px; }
 .sessionCard { background: rgba(12,25,41,.92); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
 .sessionHeader { align-items: center; background: rgba(255,255,255,.025); border-bottom: 1px solid var(--line); display: grid; gap: 20px; grid-template-columns: 55px 1fr auto; padding: 24px 28px; }
@@ -28,6 +30,10 @@
 .sessionMeta { align-items: end; display: flex; flex-direction: column; gap: 8px; }
 .sessionMeta span { background: rgba(143,167,255,.12); border-radius: 999px; color: #b8c5ff; font-size: .65rem; padding: 5px 9px; text-transform: capitalize; }
 .sessionMeta time { color: var(--muted); font-size: .72rem; }
+.recordingPanel { align-items: center; background: rgba(98,230,210,.045); border-bottom: 1px solid var(--line); display: grid; gap: 30px; grid-template-columns: 1fr minmax(280px, 440px); padding: 22px 28px; }
+.recordingPanel span { color: var(--accent); font-size: .67rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.recordingPanel p { color: var(--muted); font-size: .78rem; margin: 6px 0 0; }
+.recordingPanel audio { height: 38px; width: 100%; }
 .answerList { padding: 8px 28px; }
 .answerRow { display: grid; gap: 20px; grid-template-columns: 48px 1fr; padding: 30px 0; }
 .answerRow + .answerRow { border-top: 1px solid var(--line); }
@@ -53,6 +59,7 @@
   .sessionCard { border-left: 0; border-radius: 0; border-right: 0; }
   .sessionHeader { align-items: start; grid-template-columns: 45px 1fr; padding: 22px 20px; }
   .sessionMeta { align-items: start; grid-column: 2; }
+  .recordingPanel { grid-template-columns: 1fr; padding: 22px 20px; }
   .answerList { padding: 5px 20px; }
   .answerRow { grid-template-columns: 36px 1fr; }
 }
