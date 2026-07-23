@@ -119,7 +119,7 @@ export default async function DashboardPage() {
                 </div>
               </header>
 
-              {session.audioUrl && (
+              {session.hasAudio && (
                 <section className="recordingPanel" aria-label="Session recording">
                   <div>
                     <span>Audio recording</span>
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
                   <audio
                     controls
                     preload="metadata"
-                    src={`/api/interview-audio?src=${encodeURIComponent(session.audioUrl)}`}
+                    src={`/api/interview-audio?sessionId=${encodeURIComponent(session.id)}`}
                   >
                     Your browser does not support audio playback.
                   </audio>

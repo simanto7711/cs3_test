@@ -9,29 +9,12 @@ export type InterviewAnswer = {
 
 export type InterviewSession = {
   answers: InterviewAnswer[];
-  audioUrl?: string;
   date?: string;
+  hasAudio: boolean;
   id: string;
   participant?: string;
   status?: string;
 };
-
-const sessionPaths = [
-  "/api/sessions",
-  "/sessions",
-  "/api/interviews",
-  "/interviews",
-  "/api/survey-responses",
-  "/survey-responses",
-];
-
-const interviewerKeys = [
-  "interviewer_email",
-  "interviewerEmail",
-  "student_interviewer_email",
-  "conducted_by",
-  "conductedBy",
-];
 
 export async function getInterviewSessions(): Promise<InterviewSession[]> {
   const baseUrl = process.env.FASTAPI_BASE_URL?.replace(/\/$/, "");
@@ -44,205 +27,120 @@ export async function getInterviewSessions(): Promise<InterviewSession[]> {
 
   const headers = {
     Accept: "application/json",
-    Authorization: `Bearer ${apiKey}`,
     "X-API-Key": apiKey,
-    "X-Survey-API-Key": apiKey,
   };
 
-  for (const path of sessionPaths) {
-    const url = new URL(`${baseUrl}${path}`);
-    url.searchParams.set("interviewer_email", interviewerEmail);
+  const listPayload = await fetchJson(`${baseUrl}/admin/sessions`, headers);
+  const summaries = extractSessions(listPayload).filter((session) => {
+    const email = readText(session, ["interviewer_email"]);
+    return email?.toLowerCase() === interviewerEmail.toLowerCase();
+  });
 
-    let response: Response;
-    try {
-      response = await fetch(url, {
-        cache: "no-store",
+  const sessions = await Promise.all(
+    summaries.map(async (summary) => {
+      const sessionId = readText(summary, ["session_id"]);
+      if (!sessionId) return null;
+
+      const detailPayload = await fetchJson(
+        `${baseUrl}/admin/sessions/${encodeURIComponent(sessionId)}`,
         headers,
-        signal: AbortSignal.timeout(8000),
-      });
-    } catch {
-      throw new Error("The interview server could not be reached.");
-    }
-
-    if (response.status === 404) continue;
-
-    if (!response.ok) {
-      throw new Error(`The interview server returned ${response.status}.`);
-    }
-
-    const payload: unknown = await response.json();
-    return normalizeSessions(payload, interviewerEmail, baseUrl);
-  }
-
-  throw new Error("The interview sessions endpoint was not found.");
-}
-
-function normalizeSessions(
-  payload: unknown,
-  interviewerEmail: string,
-  baseUrl: string,
-): InterviewSession[] {
-  const items = extractItems(payload);
-  const datasetIncludesInterviewer = items.some((item) =>
-    Boolean(readText(item, interviewerKeys)),
+      );
+      const detail = isRecord(detailPayload) ? detailPayload : {};
+      return normalizeSession(summary, detail, sessionId);
+    }),
   );
 
-  const matchingItems = items.filter((item) => {
-    const recordedEmail = readText(item, interviewerKeys);
-    if (!datasetIncludesInterviewer) return true;
-    return recordedEmail?.toLowerCase() === interviewerEmail.toLowerCase();
-  });
-
-  const sessions = new Map<string, InterviewSession>();
-
-  matchingItems.forEach((item, itemIndex) => {
-    const sessionId =
-      readText(item, ["session_id", "sessionId", "id", "uuid"]) ??
-      `session-${itemIndex + 1}`;
-    const nestedAnswers = readArray(item, [
-      "answers",
-      "responses",
-      "questions",
-      "qa_pairs",
-      "turns",
-    ]);
-
-    const existing = sessions.get(sessionId) ?? {
-      answers: [],
-      audioUrl: resolveAudioUrl(
-        readText(item, [
-          "audio_url",
-          "audioUrl",
-          "audio_file_url",
-          "audioFileUrl",
-          "audio_path",
-          "audioPath",
-          "recording_url",
-          "recordingUrl",
-          "recording_path",
-          "recordingPath",
-        ]),
-        baseUrl,
-      ),
-      date: readText(item, [
-        "completed_at",
-        "completedAt",
-        "created_at",
-        "createdAt",
-        "started_at",
-        "startedAt",
-        "timestamp",
-        "date",
-      ]),
-      id: sessionId,
-      participant: readText(item, [
-        "participant_name",
-        "participantName",
-        "respondent_name",
-        "respondentName",
-        "participant_email",
-        "participantEmail",
-        "respondent_email",
-        "respondentEmail",
-      ]),
-      status: readText(item, ["status", "state"]),
-    };
-
-    if (nestedAnswers.length > 0) {
-      nestedAnswers.forEach((answer, answerIndex) => {
-        const normalized = normalizeAnswer(answer, answerIndex);
-        if (normalized) existing.answers.push(normalized);
-      });
-    } else {
-      const normalized = normalizeAnswer(item, existing.answers.length);
-      if (normalized) existing.answers.push(normalized);
-    }
-
-    sessions.set(sessionId, existing);
-  });
-
-  return Array.from(sessions.values()).sort((a, b) => {
-    const aTime = a.date ? Date.parse(a.date) : 0;
-    const bTime = b.date ? Date.parse(b.date) : 0;
-    return bTime - aTime;
-  });
+  return sessions
+    .filter((session): session is InterviewSession => session !== null)
+    .sort((a, b) => {
+      const aTime = a.date ? Date.parse(a.date) : 0;
+      const bTime = b.date ? Date.parse(b.date) : 0;
+      return bTime - aTime;
+    });
 }
 
-function resolveAudioUrl(
-  value: string | undefined,
-  baseUrl: string,
-): string | undefined {
-  if (!value) return undefined;
+async function fetchJson(
+  url: string,
+  headers: Record<string, string>,
+): Promise<unknown> {
+  let response: Response;
+
   try {
-    return new URL(value, `${baseUrl}/`).toString();
+    response = await fetch(url, {
+      cache: "no-store",
+      headers,
+      signal: AbortSignal.timeout(10000),
+    });
   } catch {
-    return undefined;
+    throw new Error("The interview server could not be reached.");
   }
+
+  if (!response.ok) {
+    throw new Error(`The interview server returned ${response.status}.`);
+  }
+
+  return response.json();
+}
+
+function normalizeSession(
+  summary: UnknownRecord,
+  detail: UnknownRecord,
+  sessionId: string,
+): InterviewSession {
+  const respondent = readRecord(detail, ["respondent_info"]);
+  const audio = readRecord(detail, ["audio"]);
+  const answers = readArray(detail, ["matched_questions"])
+    .map(normalizeAnswer)
+    .filter((answer): answer is InterviewAnswer => answer !== null);
+
+  return {
+    answers,
+    date:
+      readText(summary, ["created_at", "uploaded_at", "recorded_at_ms"]) ??
+      readText(detail, ["timestamp"]),
+    hasAudio: Boolean(
+      readText(summary, ["audio_filename"]) ??
+        readText(audio, ["file_name"]),
+    ),
+    id: sessionId,
+    participant:
+      readText(summary, ["respondent_name", "respondent_email"]) ??
+      readText(respondent, ["name"]),
+    status: readText(summary, ["status"]),
+  };
 }
 
 function normalizeAnswer(
   value: UnknownRecord,
   index: number,
 ): InterviewAnswer | null {
-  const question = readText(value, [
-    "question",
-    "question_text",
-    "questionText",
-    "prompt",
-    "label",
-  ]);
+  const question = readText(value, ["matched_question"]);
   const originalAnswer = readText(value, [
-    "answer",
-    "answer_text",
-    "answerText",
-    "response",
-    "response_text",
-    "responseText",
-    "value",
+    "extracted_answer",
+    "selected_option_labels",
+    "selected_option_codes",
   ]);
-  const correctedAnswer = readText(value, [
-    "corrected_answer",
-    "correctedAnswer",
-    "edited_answer",
-    "editedAnswer",
-    "final_answer",
-    "finalAnswer",
-  ]);
+  const finalAnswer = readText(value, ["final_answer"]);
+  const answerSource = readText(value, ["answer_source"]);
+  const wasCorrected =
+    value.manually_clarified === true ||
+    answerSource === "manual_clarification" ||
+    Boolean(finalAnswer && originalAnswer && finalAnswer !== originalAnswer);
 
-  if (!question && !originalAnswer && !correctedAnswer) return null;
+  if (!question && !originalAnswer && !finalAnswer) return null;
 
   return {
-    answer: correctedAnswer ?? originalAnswer ?? "No answer recorded.",
+    answer: finalAnswer ?? originalAnswer ?? "No answer recorded.",
     originalAnswer,
     question: question ?? `Question ${index + 1}`,
-    wasCorrected: Boolean(
-      correctedAnswer && correctedAnswer !== originalAnswer,
-    ),
+    wasCorrected,
   };
 }
 
-function extractItems(payload: unknown): UnknownRecord[] {
+function extractSessions(payload: unknown): UnknownRecord[] {
   if (Array.isArray(payload)) return payload.filter(isRecord);
   if (!isRecord(payload)) return [];
-
-  for (const key of [
-    "sessions",
-    "interviews",
-    "results",
-    "items",
-    "records",
-    "responses",
-    "data",
-  ]) {
-    const candidate = payload[key];
-    if (Array.isArray(candidate)) return candidate.filter(isRecord);
-    if (isRecord(candidate)) {
-      const nested = extractItems(candidate);
-      if (nested.length > 0) return nested;
-    }
-  }
-
-  return [payload];
+  return readArray(payload, ["sessions"]);
 }
 
 function readArray(record: UnknownRecord, keys: string[]): UnknownRecord[] {
@@ -251,6 +149,14 @@ function readArray(record: UnknownRecord, keys: string[]): UnknownRecord[] {
     if (Array.isArray(value)) return value.filter(isRecord);
   }
   return [];
+}
+
+function readRecord(record: UnknownRecord, keys: string[]): UnknownRecord {
+  for (const key of keys) {
+    const value = record[key];
+    if (isRecord(value)) return value;
+  }
+  return {};
 }
 
 function readText(

@@ -6,30 +6,24 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   const baseUrl = process.env.FASTAPI_BASE_URL?.replace(/\/$/, "");
   const apiKey = process.env.SURVEY_API_KEY;
-  const source = request.nextUrl.searchParams.get("src");
+  const sessionId = request.nextUrl.searchParams.get("sessionId");
 
-  if (!baseUrl || !apiKey || !source) {
+  if (!baseUrl || !apiKey || !sessionId) {
     return new Response("Audio is unavailable.", { status: 404 });
   }
 
-  let base: URL;
   let target: URL;
   try {
-    base = new URL(baseUrl);
-    target = new URL(source, `${baseUrl}/`);
+    target = new URL(
+      `${baseUrl}/admin/sessions/${encodeURIComponent(sessionId)}/audio`,
+    );
   } catch {
-    return new Response("Invalid audio source.", { status: 400 });
-  }
-
-  if (target.origin !== base.origin) {
-    return new Response("Audio source is not allowed.", { status: 403 });
+    return new Response("Invalid recording request.", { status: 400 });
   }
 
   const headers: Record<string, string> = {
     Accept: "audio/*",
-    Authorization: `Bearer ${apiKey}`,
     "X-API-Key": apiKey,
-    "X-Survey-API-Key": apiKey,
   };
   const range = request.headers.get("range");
   if (range) headers.Range = range;
