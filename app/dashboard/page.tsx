@@ -135,6 +135,25 @@ export default async function DashboardPage() {
                 </section>
               )}
 
+              <section
+                className="transcriptionPanel"
+                aria-label={`Transcription for session ${sessionIndex + 1}`}
+              >
+                <div className="transcriptionHeading">
+                  <span>Transcript</span>
+                  <h3>Full interview transcription</h3>
+                </div>
+                {session.transcription ? (
+                  <div className="transcriptionText">
+                    {session.transcription}
+                  </div>
+                ) : (
+                  <p className="transcriptionEmpty">
+                    No transcription is available for this session.
+                  </p>
+                )}
+              </section>
+
               <div className="answerList">
                 {session.answers.length === 0 ? (
                   <p className="noAnswers">No questions were recorded for this session.</p>

@@ -14,6 +14,7 @@ export type InterviewSession = {
   id: string;
   participant?: string;
   status?: string;
+  transcription?: string;
 };
 
 export async function getInterviewSessions(): Promise<InterviewSession[]> {
@@ -107,6 +108,7 @@ function normalizeSession(
       readText(summary, ["respondent_name", "respondent_email"]) ??
       readText(respondent, ["name"]),
     status: readText(summary, ["status"]),
+    transcription: readText(detail, ["transcription"]),
   };
 }
 
