@@ -4,7 +4,7 @@ A simple, responsive personal homepage built with Next.js, TypeScript, and Tailw
 
 ## Customize it
 
-Open `app/page.tsx` and replace `Your Name`, the introduction, interests, learning goals, and placeholder links with your own details. The page styles are in `app/globals.css`.
+Open `app/page.tsx` to update Simanto's introduction, interests, learning goals, and placeholder links. The page styles are in `app/globals.css`.
 
 ## Run locally
 
