@@ -1,30 +1,72 @@
 const interests = [
   {
     number: "01",
-    title: "Web development",
-    description: "Turning ideas into useful, responsive experiences.",
+    title: "Engineering research",
+    description:
+      "Collecting and analyzing data, documenting results, and helping communicate research progress.",
   },
   {
     number: "02",
-    title: "Creative thinking",
-    description: "Finding simple and thoughtful ways to solve problems.",
+    title: "AI & emerging technology",
+    description:
+      "Exploring machine learning, prompt engineering, and useful AI-powered tools.",
   },
   {
     number: "03",
-    title: "New technology",
-    description: "Learning how modern tools shape the way we create.",
+    title: "Web development",
+    description:
+      "Building responsive projects with HTML, CSS, JavaScript, and modern web tools.",
   },
   {
     number: "04",
-    title: "Connecting with people",
-    description: "Sharing ideas, listening, and learning from others.",
+    title: "Competitive mathematics",
+    description:
+      "Strengthening logical reasoning through challenging problems and team competitions.",
+  },
+];
+
+const experiences = [
+  {
+    period: "Jun 2026 — Present",
+    role: "Research Intern",
+    organization: "Columbia Engineering",
+    description:
+      "Supporting active engineering research through data collection and analysis, interface design, database development, and research documentation.",
+  },
+  {
+    period: "Mar — May 2026",
+    role: "Engineering & AI Student",
+    organization: "MIT Beaver Works Institute",
+    description:
+      "Designed engineering and coding projects around real-world challenges while exploring artificial intelligence and emerging technologies in teams.",
+  },
+  {
+    period: "Jul 2025 — May 2026",
+    role: "Technical Researcher",
+    organization: "America On Tech",
+    description:
+      "Developed coding, leadership, and professional skills through Tech Flex Leaders and built an AI-powered chatbot during an intensive AI foundations program.",
+  },
+  {
+    period: "Oct 2025 — May 2026",
+    role: "Lead",
+    organization: "ACE Mentor Program",
+    description:
+      "Explored practical engineering and building design, including foundational mechanical, electrical, and plumbing concepts.",
+  },
+  {
+    period: "Jun — Aug 2024",
+    role: "Student Developer",
+    organization: "All Star Code",
+    description:
+      "Built a personal portfolio and interactive JavaScript projects while learning HTML, CSS, coding fundamentals, and technology career skills.",
   },
 ];
 
 const learningGoals = [
-  "Write clean, understandable code",
-  "Design responsive interfaces",
-  "Turn an idea into a working project",
+  "Build clear, user-centered interfaces",
+  "Strengthen full-stack development fundamentals",
+  "Turn research and ideas into useful digital products",
 ];
 
 export default function Home() {
@@ -36,7 +78,7 @@ export default function Home() {
         </a>
         <div className="navLinks">
           <a href="#about">About</a>
-          <a href="#interests">Interests</a>
+          <a href="#experience">Experience</a>
           <a href="#learning">Learning</a>
         </div>
         <div className="navActions">
@@ -53,39 +95,46 @@ export default function Home() {
         <div className="heroGlow" aria-hidden="true" />
         <div className="heroCopy">
           <div className="availability">
-            <span aria-hidden="true" /> Student &amp; curious builder
+            <span aria-hidden="true" /> New York · Student researcher &amp;
+            builder
           </div>
           <h1>
             Hi, I&apos;m <span>Simanto.</span>
           </h1>
           <p className="heroIntro">
-            I&apos;m learning how technology, design, and a good idea can come
-            together to create something meaningful.
+            I&apos;m Simanto Kumar Sen, a high school student exploring how
+            engineering, research, artificial intelligence, and code can solve
+            meaningful problems.
           </p>
           <div className="heroActions">
-            <a className="button primary" href="#about">
-              Explore my story <span aria-hidden="true">↓</span>
+            <a className="button primary" href="#experience">
+              View my experience <span aria-hidden="true">↓</span>
             </a>
-            <a className="button secondary" href="mailto:hello@example.com">
-              Say hello <span aria-hidden="true">↗</span>
+            <a
+              className="button secondary"
+              href="https://www.linkedin.com/in/simanto-kumar-sen-016285424/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
 
         <aside className="nowCard" aria-label="What I am currently focused on">
           <div className="cardTop">
-            <span>Now</span>
+            <span>Currently</span>
             <span className="cardDot" aria-hidden="true" />
           </div>
-          <p>Learning the foundations of modern web development.</p>
-          <div className="skillTags" aria-label="Skills I am exploring">
-            <span>Next.js</span>
-            <span>TypeScript</span>
-            <span>Design</span>
+          <p>Supporting engineering research at Columbia Engineering.</p>
+          <div className="skillTags" aria-label="Current areas of focus">
+            <span>Research</span>
+            <span>Data</span>
+            <span>Interface design</span>
           </div>
           <div className="cardFooter">
-            <span>01</span>
-            <span>Keep exploring</span>
+            <span>2026</span>
+            <span>Columbia Engineering</span>
           </div>
         </aside>
       </section>
@@ -93,19 +142,37 @@ export default function Home() {
       <section className="section aboutSection" id="about">
         <div className="sectionHeading">
           <p className="sectionLabel">01 — About</p>
-          <h2>Curious by nature.<br />Learning by doing.</h2>
+          <h2>
+            Curious about how
+            <br />
+            ideas become impact.
+          </h2>
         </div>
         <div className="aboutCopy">
           <p className="lead">
-            I enjoy asking questions, trying new things, and understanding how
-            ideas become real projects.
+            I&apos;m a student at Manhattan Center for Science &amp;
+            Mathematics with a growing foundation in engineering, research,
+            coding, and collaborative problem-solving.
           </p>
           <p>
-            This website is one of my first steps into web development. Outside
-            of class, you can usually find me exploring a new hobby, spending
-            time with friends, or collecting ideas for the next thing I want to
-            build.
+            From research at Columbia Engineering to team projects at MIT
+            Beaver Works and America On Tech, I enjoy learning by building,
+            testing ideas, and explaining what I discover.
           </p>
+          <div className="profileFacts" aria-label="Academic highlights">
+            <div>
+              <span>Class of</span>
+              <strong>2027</strong>
+            </div>
+            <div>
+              <span>GPA</span>
+              <strong>99.8%</strong>
+            </div>
+            <div>
+              <span>SAT</span>
+              <strong>1470</strong>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -113,9 +180,16 @@ export default function Home() {
         <div className="sectionIntro">
           <div>
             <p className="sectionLabel">02 — Interests</p>
-            <h2>Things that keep<br />me curious.</h2>
+            <h2>
+              Where I focus
+              <br />
+              my curiosity.
+            </h2>
           </div>
-          <p>The subjects and ideas I naturally come back to.</p>
+          <p>
+            The technical and academic areas I keep exploring through projects,
+            programs, and research.
+          </p>
         </div>
         <div className="interestGrid">
           {interests.map((interest) => (
@@ -128,13 +202,51 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section experienceSection" id="experience">
+        <div className="experienceIntro">
+          <div>
+            <p className="sectionLabel">03 — Selected experience</p>
+            <h2>
+              Learning in
+              <br />
+              real environments.
+            </h2>
+          </div>
+          <p>
+            Programs and roles that have shaped how I approach engineering,
+            research, technology, and teamwork.
+          </p>
+        </div>
+        <div className="experienceList">
+          {experiences.map((experience) => (
+            <article
+              className="experienceItem"
+              key={`${experience.organization}-${experience.role}`}
+            >
+              <time>{experience.period}</time>
+              <div>
+                <h3>{experience.role}</h3>
+                <p className="experienceOrg">{experience.organization}</p>
+              </div>
+              <p className="experienceDescription">
+                {experience.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section learningSection" id="learning">
         <div className="learningCopy">
-          <p className="sectionLabel">03 — In this class</p>
-          <h2>Building skills<br />that last.</h2>
+          <p className="sectionLabel">04 — In this class</p>
+          <h2>
+            Building skills
+            <br />
+            that connect.
+          </h2>
           <p>
-            I want to move from simply using technology to understanding how
-            to create with it confidently.
+            I want to connect my research and engineering experience with the
+            ability to design and build polished digital products.
           </p>
         </div>
         <ol className="goalList">
@@ -142,26 +254,46 @@ export default function Home() {
             <li key={goal}>
               <span>0{index + 1}</span>
               <p>{goal}</p>
-              <span className="goalArrow" aria-hidden="true">↗</span>
+              <span className="goalArrow" aria-hidden="true">
+                ↗
+              </span>
             </li>
           ))}
         </ol>
       </section>
 
       <section className="connect" id="connect">
-        <p className="sectionLabel">04 — Connect</p>
-        <h2>Let&apos;s make something<br />worth sharing.</h2>
-        <p>Find me online or send me a note.</p>
+        <p className="sectionLabel">05 — Connect</p>
+        <h2>
+          Let&apos;s build something
+          <br />
+          meaningful.
+        </h2>
+        <p>Connect with me to talk about engineering, research, or technology.</p>
         <div className="socialLinks">
-          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <a href="mailto:hello@example.com">Email ↗</a>
+          <a
+            href="https://github.com/simanto7711"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
+          <a
+            href="https://www.linkedin.com/in/simanto-kumar-sen-016285424/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn ↗
+          </a>
+          <a href="mailto:ss7711@columbia.edu">Email ↗</a>
         </div>
       </section>
 
       <footer>
-        <a className="wordmark" href="#top">Simanto<span>.</span></a>
-        <p>Designed &amp; built with curiosity</p>
+        <a className="wordmark" href="#top">
+          Simanto<span>.</span>
+        </a>
+        <p>Research · Engineering · Technology</p>
         <p>© 2026</p>
       </footer>
     </main>

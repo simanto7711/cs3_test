@@ -94,6 +94,10 @@ main {
 .aboutCopy { align-self: end; max-width: 520px; }
 .aboutCopy p { color: var(--muted); line-height: 1.8; }
 .aboutCopy .lead { color: var(--text); font-size: 1.35rem; font-weight: 520; letter-spacing: -.02em; line-height: 1.5; }
+.profileFacts { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: 32px; }
+.profileFacts div { background: rgba(255,255,255,.035); border: 1px solid var(--line); border-radius: 13px; display: flex; flex-direction: column; padding: 14px; }
+.profileFacts span { color: var(--muted); font-size: .62rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.profileFacts strong { font-size: 1.1rem; margin-top: 7px; }
 .sectionIntro { align-items: end; display: flex; gap: 50px; justify-content: space-between; }
 .sectionIntro > p { color: var(--muted); line-height: 1.6; max-width: 270px; }
 
@@ -103,6 +107,16 @@ main {
 .cardNumber { color: var(--accent); font-size: .68rem; font-weight: 800; }
 .interestCard h3 { font-size: 1.65rem; font-weight: 620; letter-spacing: -.035em; margin: 70px 0 12px; }
 .interestCard p { color: var(--muted); line-height: 1.6; margin: 0; max-width: 360px; }
+
+.experienceIntro { align-items: end; display: flex; gap: 50px; justify-content: space-between; }
+.experienceIntro > p { color: var(--muted); line-height: 1.7; margin: 0; max-width: 330px; }
+.experienceList { margin-top: 65px; }
+.experienceItem { align-items: start; border-top: 1px solid var(--line); display: grid; gap: 28px; grid-template-columns: 150px minmax(190px, .8fr) 1.2fr; padding: 30px 0; }
+.experienceItem:last-child { border-bottom: 1px solid var(--line); }
+.experienceItem time { color: var(--accent); font-size: .68rem; font-weight: 750; letter-spacing: .04em; padding-top: 4px; text-transform: uppercase; }
+.experienceItem h3 { font-size: 1.15rem; letter-spacing: -.025em; margin: 0 0 7px; }
+.experienceOrg { color: #b8c5ff; font-size: .78rem; margin: 0; }
+.experienceDescription { color: var(--muted); font-size: .88rem; line-height: 1.75; margin: 0; }
 
 .learningSection { background: linear-gradient(135deg, #122747, #0b1e32 58%, #0d2c2c); border: 1px solid rgba(159,185,218,.18); border-radius: 30px; display: grid; gap: 90px; grid-template-columns: 1fr 1fr; margin-bottom: 110px; padding: 72px; }
 .learningCopy > p:last-child { color: #a9bbce; line-height: 1.7; margin-top: 30px; max-width: 470px; }
@@ -135,10 +149,13 @@ footer p:last-child { justify-self: end; }
   .hero h1 { font-size: clamp(4rem, 19vw, 6rem); }
   .nowCard { min-height: 300px; transform: none; }
   .aboutSection, .learningSection { gap: 55px; grid-template-columns: 1fr; }
+  .profileFacts { grid-template-columns: 1fr; }
   .section { padding: 85px 20px; }
-  .sectionIntro { align-items: start; flex-direction: column; }
+  .sectionIntro, .experienceIntro { align-items: start; flex-direction: column; }
   .interestGrid { grid-template-columns: 1fr; margin-top: 45px; }
   .interestCard { min-height: 220px; }
+  .experienceList { margin-top: 45px; }
+  .experienceItem { gap: 15px; grid-template-columns: 1fr; }
   .learningSection { border-left: 0; border-radius: 0; border-right: 0; margin-bottom: 75px; padding: 75px 20px; }
   .connect { border-radius: 0; margin-bottom: 0; padding: 85px 20px; }
   footer { gap: 20px; grid-template-columns: 1fr auto; }

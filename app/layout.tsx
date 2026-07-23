@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Simanto — Personal Website",
-  description: "Simanto's personal website about creativity, technology, and learning.",
+  title: "Simanto Kumar Sen — Student Researcher & Builder",
+  description:
+    "The portfolio of Simanto Kumar Sen, a student exploring engineering, research, artificial intelligence, and web development.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
