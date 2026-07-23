@@ -50,9 +50,14 @@ export default async function DashboardPage() {
           Simanto<span>.</span>
         </Link>
         <div className="dashboardNavTitle">Interview dashboard</div>
-        <Link className="backLink" href="/">
-          ← Profile
-        </Link>
+        <div className="dashboardNavActions">
+          <Link className="questionnaireLink" href="/questionnaire">
+            Questions
+          </Link>
+          <Link className="backLink" href="/">
+            ← Profile
+          </Link>
+        </div>
       </nav>
 
       <header className="dashboardHeader">

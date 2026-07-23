@@ -39,9 +39,14 @@ export default function Home() {
           <a href="#interests">Interests</a>
           <a href="#learning">Learning</a>
         </div>
-        <a className="navButton" href="/dashboard">
-          Dashboard
-        </a>
+        <div className="navActions">
+          <a className="navTextButton" href="/questionnaire">
+            Questions
+          </a>
+          <a className="navButton" href="/dashboard">
+            Dashboard
+          </a>
+        </div>
       </nav>
 
       <section className="hero">

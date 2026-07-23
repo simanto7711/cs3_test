@@ -47,6 +47,9 @@ main {
 .navLinks { display: flex; gap: 34px; }
 .navLinks a { color: var(--muted); font-size: .8rem; font-weight: 650; }
 .navLinks a:hover, .socialLinks a:hover { color: var(--accent); }
+.navActions { align-items: center; display: flex; gap: 8px; justify-self: end; }
+.navTextButton { border: 1px solid var(--line); border-radius: 11px; color: var(--muted); font-size: .75rem; font-weight: 750; padding: 10px 13px; }
+.navTextButton:hover { border-color: var(--accent); color: var(--accent); }
 .navButton { background: var(--text); border-radius: 11px; color: var(--background); font-size: .78rem; font-weight: 750; justify-self: end; padding: 11px 16px; }
 .navButton:hover { background: var(--accent); }
 
@@ -127,6 +130,7 @@ footer p:last-child { justify-self: end; }
   .nav { border-left: 0; border-radius: 0; border-right: 0; margin-top: 0; padding: 14px 20px; }
   .navLinks { display: none; }
   .nav { grid-template-columns: 1fr 1fr; }
+  .navTextButton, .navButton { font-size: .7rem; padding: 9px 10px; }
   .hero { gap: 65px; grid-template-columns: 1fr; padding: 90px 20px 85px; }
   .hero h1 { font-size: clamp(4rem, 19vw, 6rem); }
   .nowCard { min-height: 300px; transform: none; }
