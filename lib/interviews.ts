@@ -52,10 +52,16 @@ export async function getInterviewSessions(): Promise<InterviewSession[]> {
     const url = new URL(`${baseUrl}${path}`);
     url.searchParams.set("interviewer_email", interviewerEmail);
 
-    const response = await fetch(url, {
-      cache: "no-store",
-      headers,
-    });
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        cache: "no-store",
+        headers,
+        signal: AbortSignal.timeout(8000),
+      });
+    } catch {
+      throw new Error("The interview server could not be reached.");
+    }
 
     if (response.status === 404) continue;
 
