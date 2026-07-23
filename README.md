@@ -21,6 +21,9 @@ app/
   layout.tsx    Page metadata, fonts, and shared layout
   page.tsx      Homepage content
   globals.css   Colors, typography, layout, and mobile styles
+  dashboard/    Interview dashboard page and styles
+lib/
+  interviews.ts Secure server connection and data normalization
 public/         Static files such as icons and images
 ```
 

@@ -39,8 +39,8 @@ export default function Home() {
           <a href="#interests">Interests</a>
           <a href="#learning">Learning</a>
         </div>
-        <a className="navButton" href="#connect">
-          Let&apos;s talk
+        <a className="navButton" href="/dashboard">
+          Dashboard
         </a>
       </nav>
 
